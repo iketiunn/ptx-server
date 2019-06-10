@@ -14,7 +14,14 @@ if (!API_HOST) API_HOST = API_HOST || "ptx.transportdata.tw";
 if (!PORT) PORT = Number(PORT) || undefined;
 if (!API_PORT) API_PORT = Number(API_PORT) || 443;
 
-function getAuthHeader(username, key) {
+function getAuthHeader({ path, V1_APP_ID, V1_APP_KEY, V2_APP_ID, V2_APP_KEY }) {
+  if (path.toLowerCase().includes("v1")) {
+    username = V1_APP_ID;
+    key = V1_APP_KEY;
+  } else {
+    username = V2_APP_ID;
+    key = V2_APP_KEY;
+  }
   const date_str = new Date().toUTCString();
   const hmac_sha1 = crypto
     .createHmac("sha1", key)
@@ -44,7 +51,7 @@ function sendProxy(req, res, cache) {
   const path = req.url;
   if (!headers) {
     console.log("Headers expired.");
-    headers = getAuthHeader(APP_ID, APP_KEY);
+    headers = getAuthHeader({ V1_APP_ID, V1_APP_KEY, V2_APP_ID, V2_APP_KEY });
     cache.set(HEADERS_KEY, headers, 300); // 5min
   }
   const proxy = https.request(
