@@ -4,33 +4,24 @@ const http = require("http");
 const https = require("https");
 
 // Init env
-const { V1_APP_ID, V1_APP_KEY, V2_APP_ID, V2_APP_KEY } = process.env;
+const { APP_ID, APP_KEY } = process.env;
 let { API_HOST, API_PORT, PORT } = process.env;
-if (!V1_APP_ID) throw new TypeError("Miss V1_APP_ID!");
-if (!V1_APP_KEY) throw new TypeError("Miss V1_APP_KEY!");
-if (!V2_APP_ID) throw new TypeError("Miss V2_APP_ID!");
-if (!V2_APP_KEY) throw new TypeError("Miss V2_APP_KEY!");
+if (!APP_ID) throw new TypeError("Miss APP_ID!");
+if (!APP_KEY) throw new TypeError("Miss APP_KEY!");
 if (!API_HOST) API_HOST = API_HOST || "ptx.transportdata.tw";
 if (!PORT) PORT = Number(PORT) || undefined;
 if (!API_PORT) API_PORT = Number(API_PORT) || 443;
 
-function getAuthHeader({ path, V1_APP_ID, V1_APP_KEY, V2_APP_ID, V2_APP_KEY }) {
-  if (path.toLowerCase().includes("v1")) {
-    username = V1_APP_ID;
-    key = V1_APP_KEY;
-  } else {
-    username = V2_APP_ID;
-    key = V2_APP_KEY;
-  }
+function getAuthHeader({ path, APP_ID, APP_KEY }) {
   const date_str = new Date().toUTCString();
   const hmac_sha1 = crypto
-    .createHmac("sha1", key)
+    .createHmac("sha1", APP_KEY)
     .update("x-date: " + date_str)
     .digest()
     .toString("base64");
   const Authorization = [
     'hmac username="',
-    username,
+    APP_ID,
     '", algorithm="hmac-sha1", headers="x-date", signature="',
     hmac_sha1,
     '"'
@@ -51,7 +42,7 @@ function sendProxy(req, res, cache) {
   const path = req.url;
   if (!headers) {
     console.log("Headers expired.");
-    headers = getAuthHeader({ V1_APP_ID, V1_APP_KEY, V2_APP_ID, V2_APP_KEY });
+    headers = getAuthHeader({ APP_ID, APP_KEY });
     cache.set(HEADERS_KEY, headers, 300); // 5min
   }
   const proxy = https.request(
