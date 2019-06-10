@@ -1,15 +1,23 @@
 {
   "name": "ptx-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "A proxy server for ptx",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "now && now rm ptx-server --safe --yes"
+    "deploy": "now",
+    "remove-un-alias": "now rm ptx-server --safe --yes"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "now",
+    "ptx",
+    "proxy",
+    "bus",
+    "rail",
+    "server"
+  ],
+  "author": "ike",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^12.0.7"
   },

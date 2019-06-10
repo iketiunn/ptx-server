@@ -12,7 +12,7 @@ if (!API_HOST) API_HOST = API_HOST || "ptx.transportdata.tw";
 if (!PORT) PORT = Number(PORT) || undefined;
 if (!API_PORT) API_PORT = Number(API_PORT) || 443;
 
-function getAuthHeader({ path, APP_ID, APP_KEY }) {
+function getAuthHeader({ APP_ID, APP_KEY }) {
   const date_str = new Date().toUTCString();
   const hmac_sha1 = crypto
     .createHmac("sha1", APP_KEY)
@@ -71,8 +71,8 @@ function sendProxy(req, res, cache) {
             headers: proxy_res.headers,
             data: Buffer.concat(tempBuf)
           },
-          60
-        ); // 1min
+          30
+        ); // 30s
       });
       proxy_res.on("error", console.error);
     }
