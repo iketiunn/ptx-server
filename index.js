@@ -87,7 +87,6 @@ function sendProxy(req, res, cache) {
 /** Assume using legacy nodejs http/https */
 const handler = (req, res) => {
   const path = req.url;
-  console.log("!!!!!!!!!!!!!!!!!!!!!!!!Path", path);
   cache.get(path, (err, val) => {
     if (err) console.error(err);
     if (!val) {
@@ -103,8 +102,8 @@ const handler = (req, res) => {
   });
 };
 
-// TODO Switch between lambda mode and dev mode
-http
-  .createServer(handler)
-  .on("error", console.error)
-  .listen(PORT, () => console.log("start proxy"));
+const server = http.createServer(handler).on("error", console.error);
+
+server.listen(PORT, () =>
+  console.log("start proxy at :", server.address().port)
+);
