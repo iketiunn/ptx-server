@@ -4,10 +4,12 @@ const http = require("http");
 const https = require("https");
 
 // Init env
-const { APP_ID, APP_KEY } = process.env;
+const { V1_APP_ID, V1_APP_KEY, V2_APP_ID, V2_APP_KEY } = process.env;
 let { API_HOST, API_PORT, PORT } = process.env;
-if (!APP_ID) throw new TypeError("Miss APP_ID!");
-if (!APP_KEY) throw new TypeError("Miss APP_KEY!");
+if (!V1_APP_ID) throw new TypeError("Miss V1_APP_ID!");
+if (!V1_APP_KEY) throw new TypeError("Miss V1_APP_KEY!");
+if (!V2_APP_ID) throw new TypeError("Miss V2_APP_ID!");
+if (!V2_APP_KEY) throw new TypeError("Miss V2_APP_KEY!");
 if (!API_HOST) API_HOST = API_HOST || "ptx.transportdata.tw";
 if (!PORT) PORT = Number(PORT) || undefined;
 if (!API_PORT) API_PORT = Number(API_PORT) || 443;
