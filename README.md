@@ -1,6 +1,6 @@
 ## PTX-server (Open transport data api platform in Taiwan 🇹🇼)
 
-A proxy server for [Public Transport Data eXchange](https://.ptx.transportdata.tw)
+A proxy server for [Public Transport Data eXchange](https://ptx.transportdata.tw)
 
 Features:
 
